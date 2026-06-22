@@ -1,0 +1,363 @@
+/* ============================================================================
+   Persona Design System — Colors & Type
+   Source: https://github.com/privy-open-source/design-system
+   Brand: Privy (PT Privy Identitas Digital) · UI system name: Persona
+   ----------------------------------------------------------------------------
+   Use the semantic vars (--fg-*, --bg-*, --border-*, --brand-*) for most work.
+   Drop down to the raw palette (--gray-95, --red-40, etc.) only when a
+   semantic doesn't fit.
+   ========================================================================== */
+
+/* DM Sans + DM Mono via Google Fonts (Persona ships @fontsource/dm-sans). */
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap');
+
+/* Persona icon font (600+ glyphs, classes `pi-<name>`) */
+@import url('./fonts/persona-icon.css');
+
+:root {
+  /* ─────────────── Base palette ─────────────── */
+  --base-black: #000000;
+  --base-white: #ffffff;
+
+  /* Gray (neutral) — backbone of the system */
+  --gray-0:   #FBFCFD; /* near-white surface */
+  --gray-5:   #F4F5F7;
+  --gray-10:  #E6E7EB;
+  --gray-15:  #D9DDE3;
+  --gray-20:  #CBD1D8;
+  --gray-25:  #BEC5CF;
+  --gray-30:  #AFB7C3;
+  --gray-35:  #A0ABB9;
+  --gray-40:  #939EAE;
+  --gray-45:  #8390A3;
+  --gray-50:  #728196;
+  --gray-55:  #647184;
+  --gray-60:  #5B6778;
+  --gray-65:  #525D6C;
+  --gray-70:  #495260;
+  --gray-75:  #414955;
+  --gray-80:  #383F4A;
+  --gray-85:  #30363F;
+  --gray-90:  #272C33;
+  --gray-95:  #1F2329;
+  --gray-100: #191C21;
+
+  /* Red — brand accent, used for logo + primary action */
+  --red-milk: #FEF7F7;
+  --red-0:    #FCEAE9;
+  --red-10:   #F6BCBB;
+  --red-20:   #F08E8D;
+  --red-30:   #EA605E;
+  --red-40:   #E42E2C; /* BRAND */
+  --red-50:   #C22725;
+  --red-60:   #9F201F;
+  --red-70:   #7D1918;
+  --red-80:   #5B1212;
+  --red-90:   #390C0B;
+  --red-100:  #220707;
+
+  /* Blue — accent / link / info */
+  --blue-milk: #F5FAFF;
+  --blue-0:    #E5F3FF;
+  --blue-10:   #ADD9FF;
+  --blue-20:   #75C0FF;
+  --blue-30:   #3DA6FF;
+  --blue-40:   #008AFF;
+  --blue-50:   #0075D9;
+  --blue-60:   #0061B3;
+  --blue-70:   #004C8C;
+  --blue-80:   #003766;
+  --blue-90:   #002340;
+  --blue-100:  #001526;
+
+  /* Green — success */
+  --green-milk: #F7FDF8;
+  --green-0:    #EAF9EE;
+  --green-10:   #BEEDCA;
+  --green-20:   #91E1A5;
+  --green-30:   #65D481;
+  --green-40:   #34C759;
+  --green-50:   #2CA94C;
+  --green-60:   #248C3E;
+  --green-70:   #1D6D31;
+  --green-80:   #155024;
+  --green-90:   #0D3216;
+  --green-100:  #081E0D;
+
+  /* Orange — warning */
+  --orange-milk: #FFFBF5;
+  --orange-0:    #FFF5E5;
+  --orange-10:   #FFE0AD;
+  --orange-20:   #FFCA75;
+  --orange-30:   #FFB53D;
+  --orange-40:   #FF9E00;
+  --orange-50:   #D98600;
+  --orange-60:   #B36F00;
+  --orange-70:   #8C5700;
+  --orange-80:   #663F00;
+  --orange-90:   #402800;
+  --orange-100:  #261800;
+
+  /* Extended hues (used sparingly: charts, illustrations, decorative) */
+  --lightblue-40: #00D1FF;
+  --gold-40:      #FFB400;
+  --yellow-40:    #FFD700;
+  --lime-40:      #A3FF00;
+  --teal-40:      #00C7A9;
+  --purple-40:    #8000FF;
+  --violet-40:    #9B00FF;
+  --pink-40:      #F23BFF;
+
+  /* ─────────────── Semantic — brand ─────────────── */
+  --brand-logo:           var(--red-40);    /* Privy red */
+  --brand-action:         var(--red-40);    /* primary CTA */
+  --brand-action-hover:   var(--red-50);
+  --brand-action-press:   var(--red-60);
+  --brand-accent:         var(--blue-40);
+  --brand-accent-subtle:  var(--blue-20);
+  --brand-accent-subtlest:var(--blue-milk);
+
+  /* ─────────────── Semantic — foreground (text/icon) ─────────────── */
+  --fg-default:    var(--gray-95);   /* body text */
+  --fg-subtle:     var(--gray-60);   /* secondary text */
+  --fg-subtlest:   var(--gray-35);   /* tertiary, placeholder */
+  --fg-muted:      var(--gray-20);
+  --fg-on-emphasis:var(--gray-0);    /* text on dark/brand bg */
+  --fg-link:       var(--blue-50);
+  --fg-info:       var(--blue-60);
+  --fg-success:    var(--green-60);
+  --fg-warning:    var(--orange-70);
+  --fg-danger:     var(--red-60);
+
+  /* ─────────────── Semantic — background ─────────────── */
+  --bg-base:       var(--gray-10);   /* page chrome */
+  --bg-ground:     var(--gray-5);    /* app canvas */
+  --bg-default:    var(--gray-0);    /* card surface */
+  --bg-layer-1:    var(--gray-0);
+  --bg-layer-2:    var(--gray-0);
+  --bg-inverse:    var(--gray-95);
+  --bg-info:       var(--blue-0);
+  --bg-info-emphasis:    var(--blue-40);
+  --bg-success:    var(--green-0);
+  --bg-success-emphasis: var(--green-40);
+  --bg-warning:    var(--orange-0);
+  --bg-warning-emphasis: var(--orange-40);
+  --bg-danger:     var(--red-0);
+  --bg-danger-emphasis:  var(--red-40);
+  --bg-dim:        rgba(25, 28, 33, 0.30);
+
+  /* ─────────────── Semantic — border ─────────────── */
+  --border-subtlest: var(--gray-5);
+  --border-subtle:   var(--gray-10);
+  --border-default:  var(--gray-20);
+  --border-emphasis: var(--gray-30);
+  --border-inverse:  var(--gray-90);
+  --border-info:     var(--blue-10);
+  --border-success:  var(--green-10);
+  --border-warning:  var(--orange-10);
+  --border-danger:   var(--red-10);
+
+  /* ─────────────── Type ─────────────── */
+  --font-sans:    'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:    'DM Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-icon:    'Persona Icon';
+
+  /* Type scale (px) — from packages/tailwind-preset */
+  --fs-xt:    10px;
+  --fs-tn:    11px;
+  --fs-xs:    12px;
+  --fs-sm:    14px;
+  --fs-base:  16px;
+  --fs-xl:    20px;
+  --fs-2xl:   24px;
+  --fs-4xl:   36px;
+  --fs-5xl:   48px;
+  --fs-6xl:   60px;
+  --fs-7xl:   72px;
+
+  /* Line height */
+  --lh-none:     1;
+  --lh-tightest: 1.33;
+  --lh-tighter:  1.42;
+  --lh-tight:    1.45;
+  --lh-normal:   1.5;
+  --lh-wide:     normal;
+
+  /* Letter spacing */
+  --tracking-tighter: -0.4px;
+  --tracking-tight:   -0.2px;
+  --tracking-normal:  0;
+  --tracking-wide:    0.2px;
+  --tracking-wider:   0.4px;
+  --tracking-widest:  0.8px;
+
+  /* Weight */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-bold:     700;
+
+  /* ─────────────── Radius ─────────────── */
+  --radius-none:  0;
+  --radius-tn:    4px;   /* xs buttons / xs labels */
+  --radius-xs:    6px;
+  --radius-sm:    7px;   /* sm buttons */
+  --radius:       8px;   /* default — md/lg buttons, inputs */
+  --radius-md:    12px;  /* cards */
+  --radius-lg:    14px;
+  --radius-xl:    16px;
+  --radius-2xl:   20px;
+  --radius-3xl:   22px;
+  --radius-full:  999999px;
+
+  /* ─────────────── Elevation (shadow) ─────────────── */
+  --shadow-sm:  0 1px 3px rgba(25,28,33,.10), 0 1px 2px rgba(25,28,33,.05);                  /* tooltip, card */
+  --shadow-md:  0 4px 6px -1px rgba(25,28,33,.10), 0 2px 4px rgba(25,28,33,.05);
+  --shadow-lg:  0 10px 15px -3px rgba(25,28,33,.10), 0 4px 6px rgba(25,28,33,.05);           /* button hover */
+  --shadow-xl:  0 0 1px rgba(25,28,33,.15), 0 8px 10px -2px rgba(25,28,33,.10), 0 16px 25px -2px rgba(25,28,33,.10); /* dropdown, toast, card-callout */
+  --shadow-2xl: 0 20px 40px -8px rgba(25,28,33,.25);                                          /* modal */
+  --shadow-mask: 0 0 0 9999px rgba(0,0,0,.50);                                                /* backdrop */
+
+  /* ─────────────── Z-index ─────────────── */
+  --z-dropdown: 1020;
+  --z-sticky:   1030;
+  --z-fixed:    1040;
+  --z-modal:    1050;
+  --z-dialog:   1055;
+  --z-overlay:  1060;
+  --z-tooltip:  1070;
+  --z-tour:     1085;
+  --z-notify:   1090;
+
+  /* ─────────────── Spacing scale (Tailwind defaults, ×4) ───────────────
+     Use these literal px values in CSS, or refer mentally as t-1 (4px) etc. */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
+
+/* ─────────────── Dark mode overrides ─────────────── */
+.dark, [data-theme="dark"] {
+  --fg-default:    var(--gray-0);
+  --fg-subtle:     var(--gray-40);
+  --fg-subtlest:   var(--gray-60);
+  --fg-muted:      var(--gray-80);
+  --fg-on-emphasis:var(--gray-95);
+  --fg-link:       var(--blue-20);
+
+  --bg-base:       var(--gray-100);
+  --bg-ground:     var(--gray-90);
+  --bg-default:    var(--gray-95);
+  --bg-layer-1:    var(--gray-90);
+  --bg-layer-2:    var(--gray-85);
+  --bg-inverse:    var(--gray-10);
+
+  --border-subtlest: var(--gray-90);
+  --border-subtle:   var(--gray-80);
+  --border-default:  var(--gray-85);
+  --border-emphasis: var(--gray-30);
+}
+
+/* ============================================================================
+   Element styles — opinionated baseline so naked HTML renders correctly
+   ========================================================================== */
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tracking-wide);
+  color: var(--fg-default);
+  background: var(--bg-ground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, .ds-h1 {
+  font-family: var(--font-sans);
+  font-size: var(--fs-7xl);          /* 72 */
+  line-height: var(--lh-wide);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--fw-regular);
+  color: var(--fg-default);
+}
+h2, .ds-h2 {
+  font-size: var(--fs-7xl);          /* h1 + h2 share 72px per spec */
+  line-height: var(--lh-wide);
+  letter-spacing: var(--tracking-tight);
+  font-weight: var(--fw-regular);
+}
+h3, .ds-h3 {
+  font-size: var(--fs-5xl);          /* 48 */
+  line-height: var(--lh-wide);
+  letter-spacing: var(--tracking-normal);
+  font-weight: var(--fw-regular);
+}
+h4, .ds-h4 {
+  font-size: var(--fs-4xl);          /* 36 */
+  line-height: var(--lh-wide);
+  font-weight: var(--fw-medium);
+}
+h5, .ds-h5 {
+  font-size: var(--fs-2xl);          /* 24 */
+  line-height: var(--lh-wide);
+  font-weight: var(--fw-medium);
+}
+h6, .ds-h6 {
+  font-size: var(--fs-xl);           /* 20 */
+  line-height: var(--lh-wide);
+  font-weight: var(--fw-regular);
+}
+
+.ds-subheading-1 { font-size: var(--fs-base); line-height: var(--lh-normal); letter-spacing: var(--tracking-wide); font-weight: var(--fw-medium); }
+.ds-subheading-2 { font-size: var(--fs-sm); line-height: var(--lh-tighter); letter-spacing: var(--tracking-wide); font-weight: var(--fw-medium); }
+
+p, .ds-body-1 {
+  font-size: var(--fs-base);
+  line-height: var(--lh-normal);
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--fw-regular);
+}
+.ds-body-2 {
+  font-size: var(--fs-sm);
+  line-height: var(--lh-tighter);
+  letter-spacing: var(--tracking-wide);
+  font-weight: var(--fw-regular);
+}
+
+.ds-caption    { font-size: var(--fs-xs); line-height: var(--lh-tightest); letter-spacing: var(--tracking-wide); }
+.ds-caption-2  { font-size: var(--fs-tn); line-height: var(--lh-tight); letter-spacing: var(--tracking-wider); }
+.ds-overline   { font-size: var(--fs-tn); line-height: var(--lh-tight); letter-spacing: var(--tracking-widest); text-transform: uppercase; font-weight: var(--fw-medium); }
+
+.ds-btn-1 { font-size: var(--fs-base); line-height: var(--lh-normal); letter-spacing: var(--tracking-wider); font-weight: var(--fw-medium); }
+.ds-btn-2 { font-size: var(--fs-sm); line-height: var(--lh-tighter); letter-spacing: var(--tracking-wider); font-weight: var(--fw-medium); }
+
+a, .ds-link {
+  color: var(--fg-link);
+  text-decoration: none;
+}
+a:hover, .ds-link:hover { text-decoration: underline; }
+
+code, kbd, samp, pre, .ds-mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+/* Foreground utility classes */
+.ds-fg-default    { color: var(--fg-default); }
+.ds-fg-subtle     { color: var(--fg-subtle); }
+.ds-fg-subtlest   { color: var(--fg-subtlest); }
+.ds-fg-info       { color: var(--fg-info); }
+.ds-fg-success    { color: var(--fg-success); }
+.ds-fg-warning    { color: var(--fg-warning); }
+.ds-fg-danger     { color: var(--fg-danger); }
+.ds-fg-brand      { color: var(--brand-action); }

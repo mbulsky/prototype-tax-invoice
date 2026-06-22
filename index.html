@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privy — Payment & Tax Invoice</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+  <style>
+    :root{
+      --red:#E42E2C; --fg:#0D1117; --sub:#6E7074; --subtlest:#AAACAE;
+      --ground:#F4F5F7; --line:#E1E3E6; --blue:#0065D1; --blue-0:#E5F3FF;
+      --green:#34C759; --green-0:#EAF9EE; --orange:#FF9E00; --orange-0:#FFF5E5;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--ground);font-family:'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--fg);}
+    .wrap{max-width:960px;margin:0 auto;padding:56px 28px 80px;}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:40px;}
+    .brand img{height:30px;}
+    .brand span{font-size:15px;font-weight:500;color:var(--sub);border-left:1px solid var(--line);padding-left:12px;}
+    h1{font-size:32px;font-weight:700;letter-spacing:-0.5px;margin:0 0 8px;}
+    .lead{font-size:16px;color:var(--sub);line-height:1.55;margin:0 0 44px;max-width:620px;}
+    .sec{font-size:12px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--subtlest);margin:0 0 16px;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:44px;}
+    .card{display:flex;flex-direction:column;gap:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:0;text-decoration:none;color:inherit;overflow:hidden;transition:box-shadow .16s ease,transform .16s ease;}
+    .card:hover{box-shadow:0 12px 24px -8px rgba(0,0,0,.16);transform:translateY(-2px);}
+    .card .body{padding:22px 24px;display:flex;align-items:flex-start;gap:16px;}
+    .ico{flex:0 0 46px;width:46px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;}
+    .card h3{font-size:17px;font-weight:700;margin:0 0 4px;}
+    .card p{font-size:13px;color:var(--sub);margin:0;line-height:1.5;}
+    .card .foot{margin-top:auto;border-top:1px solid var(--line);padding:12px 24px;font-size:12px;color:var(--blue);font-weight:600;display:flex;align-items:center;justify-content:space-between;}
+    .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;}
+    .full{grid-column:1 / -1;}
+    code{font-family:'DM Mono',ui-monospace,monospace;background:var(--ground);padding:1px 6px;border-radius:5px;font-size:12px;}
+    .note{font-size:13px;color:var(--sub);line-height:1.6;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <img src="https://res.cloudinary.com/dw8n9xyg3/image/upload/v1699608192/assets/images/email/logo-privy_e372tr.png" alt="Privy">
+      <span>Payment &amp; Tax Invoice</span>
+    </div>
+
+    <h1>Payment history &amp; Faktur Pajak</h1>
+    <p class="lead">Pusat navigasi untuk prototipe aplikasi dan template email. Klik kartu untuk membuka; gunakan tombol kembali browser untuk balik ke halaman ini.</p>
+
+    <div class="sec">Prototipe aplikasi</div>
+    <div class="grid">
+      <a class="card full" href="prototype.dc.html">
+        <div class="body">
+          <span class="ico" style="background:#FDEAEA;color:var(--red);">PH</span>
+          <div>
+            <h3>Payment History — Admin Center</h3>
+            <p>Prototipe interaktif: riwayat pembayaran, detail, dokumen Receipt &amp; Faktur Pajak, download, switch bahasa ID/EN, dan kondisi Faktur Pajak belum terbit.</p>
+          </div>
+        </div>
+        <div class="foot"><span>Buka prototipe</span><span>→</span></div>
+      </a>
+    </div>
+
+    <div class="sec">Template email</div>
+    <div class="grid">
+      <a class="card" href="emails/receipt-email-id.html">
+        <div class="body">
+          <span class="ico" style="background:var(--green-0);color:#1D6D31;">ID</span>
+          <div>
+            <h3>Receipt <span class="tag" style="background:var(--green-0);color:#1D6D31;">Bahasa Indonesia</span></h3>
+            <p>Bukti pembayaran + notifikasi Faktur Pajak (terbit bersamaan / menyusul, SLA 3 hari kerja).</p>
+          </div>
+        </div>
+        <div class="foot"><span>Lihat template</span><span>→</span></div>
+      </a>
+      <a class="card" href="emails/receipt-email-en.html">
+        <div class="body">
+          <span class="ico" style="background:var(--blue-0);color:var(--blue);">EN</span>
+          <div>
+            <h3>Receipt <span class="tag" style="background:var(--blue-0);color:var(--blue);">English</span></h3>
+            <p>Payment receipt + tax invoice notice (issued together / to follow, 3 working days SLA).</p>
+          </div>
+        </div>
+        <div class="foot"><span>View template</span><span>→</span></div>
+      </a>
+      <a class="card" href="emails/tax-invoice-email-id.html">
+        <div class="body">
+          <span class="ico" style="background:var(--green-0);color:#1D6D31;">ID</span>
+          <div>
+            <h3>Faktur Pajak <span class="tag" style="background:var(--green-0);color:#1D6D31;">Bahasa Indonesia</span></h3>
+            <p>Email terpisah yang dikirim saat Faktur Pajak telah terbit.</p>
+          </div>
+        </div>
+        <div class="foot"><span>Lihat template</span><span>→</span></div>
+      </a>
+      <a class="card" href="emails/tax-invoice-email-en.html">
+        <div class="body">
+          <span class="ico" style="background:var(--blue-0);color:var(--blue);">EN</span>
+          <div>
+            <h3>Tax invoice <span class="tag" style="background:var(--blue-0);color:var(--blue);">English</span></h3>
+            <p>Separate email sent once the tax invoice has been issued.</p>
+          </div>
+        </div>
+        <div class="foot"><span>View template</span><span>→</span></div>
+      </a>
+      <a class="card full" href="emails/preview.html">
+        <div class="body">
+          <span class="ico" style="background:var(--orange-0);color:#8C5700;">▦</span>
+          <div>
+            <h3>Preview semua kondisi (side-by-side)</h3>
+            <p>Keenam tampilan email dalam satu halaman — 3 kondisi × 2 bahasa, dengan data sampel.</p>
+          </div>
+        </div>
+        <div class="foot"><span>Buka preview</span><span>→</span></div>
+      </a>
+    </div>
+
+    <div class="note">
+      <b>Catatan:</b> Template email berisi merge tag seperti <code>*|enterprise_name|*</code> dan <code>*|tax_invoice_status|*</code>. Halaman ini hanya untuk pratinjau — pengiriman email sesungguhnya dilakukan melalui ESP/backend yang mengisi merge tag tersebut.
+    </div>
+  </div>
+</body>
+</html>

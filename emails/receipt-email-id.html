@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="supported-color-schemes" content="light">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+    <title>Bukti pembayaran akun enterprise</title>
+  </head>
+  <body style="background-color:#e6e6e6;padding:0;margin:0;font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';">
+    <table style="width:100%; height:100%; background-color:#F4F5F7; border-spacing:0; border-collapse:collapse;">
+      <tbody>
+        <tr>
+          <td style="padding:0;">
+            <table style="width:100%; max-width:640px; margin:1rem auto; border-top:0.5rem solid #e42e2c; border-spacing:0; border-collapse:collapse; background-color:#fff;">
+              <tbody>
+                <tr>
+                  <td style="padding:2rem 3rem;">
+                    <img src="https://res.cloudinary.com/dw8n9xyg3/image/upload/v1699608192/assets/images/email/logo-privy_e372tr.png" style="display:inline-block; max-height:1.625rem; width:auto;" alt="logo privy">
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 3rem 2rem;">
+                    <h2 style="margin-bottom:0; font-size:1.125rem; line-height:1.5; color:#0D1117; letter-spacing:0.03125rem; max-width:31.25rem;">
+                      Bukti pembayaran akun *|enterprise_name|*
+                    </h2>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <p style="font-size:0.875rem; margin-top:0; margin-bottom:0; line-height:1.45; color:#0D1117;">
+                      Yth. Bapak/Ibu,
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <p style="margin-top:0; margin-bottom:0; font-size:0.875rem; line-height:1.45; color:#0D1117;">
+                      Selamat, pembayaran Anda telah berhasil.
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <p style="margin-top:0; margin-bottom:0; font-size:0.875rem; line-height:1.45; color:#0D1117;">
+                      Berikut adalah detail informasi terkait:
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    *|html|*
+                  </td>
+                </tr>
+
+                <!-- ============ NOTIFIKASI FAKTUR PAJAK (kondisional) ============ -->
+                <!--
+                  Diatur lewat merge tag *|tax_invoice_status|*:
+                    "issued"  -> Faktur Pajak terbit bersamaan dengan bukti pembayaran (blok hijau)
+                    "pending" -> Faktur Pajak menyusul via email terpisah (blok amber)
+                -->
+                *|IF:tax_invoice_status=issued|*
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <table style="width:100%; border-spacing:0; border-collapse:collapse; background-color:#EAF9EE; border:1px solid #BEEDCA; border-radius:0.5rem;">
+                      <tbody>
+                        <tr>
+                          <td style="width:0.375rem; background-color:#34C759; border-top-left-radius:0.5rem; border-bottom-left-radius:0.5rem; font-size:0; line-height:0;">&nbsp;</td>
+                          <td style="padding:1.125rem 1.25rem;">
+                            <p style="margin:0 0 0.375rem; font-size:0.8125rem; line-height:1.4; color:#1D6D31; font-weight:700;">
+                              Faktur Pajak telah terbit
+                            </p>
+                            <p style="margin:0; font-size:0.8125rem; line-height:1.5; color:#155024;">
+                              Faktur Pajak untuk transaksi ini telah terbit dan dapat diunduh bersama bukti pembayaran melalui tombol di bawah.
+                              Nomor Faktur Pajak: <span style="font-family:'DM Mono', 'Courier New', monospace; font-weight:700; color:#0D1117;">*|tax_invoice_number|*</span>.
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                *|ELSE:|*
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <table style="width:100%; border-spacing:0; border-collapse:collapse; background-color:#FFF5E5; border:1px solid #FFE0AD; border-radius:0.5rem;">
+                      <tbody>
+                        <tr>
+                          <td style="width:0.375rem; background-color:#FF9E00; border-top-left-radius:0.5rem; border-bottom-left-radius:0.5rem; font-size:0; line-height:0;">&nbsp;</td>
+                          <td style="padding:1.125rem 1.25rem;">
+                            <p style="margin:0 0 0.375rem; font-size:0.8125rem; line-height:1.4; color:#8C5700; font-weight:700;">
+                              Faktur Pajak sedang diproses
+                            </p>
+                            <p style="margin:0; font-size:0.8125rem; line-height:1.5; color:#663F00;">
+                              Faktur Pajak untuk transaksi ini belum terbit. Faktur Pajak akan terbit paling lambat <b>3 hari kerja</b> sejak bukti pembayaran dibuat. Setelah Faktur Pajak tersedia, kami akan mengirimkan pemberitahuan melalui email terpisah beserta tautan untuk mengunduhnya.
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                *|END:IF|*
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <p style="margin-top:0; margin-bottom:0; font-size:0.875rem; line-height:1.45; color:#0D1117;">
+                      Klik tombol di bawah untuk mengunduh bukti pembayaran.
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem">
+                    <p style="padding:0; margin:0; text-align:center;">
+                      <a href="https://b2b-admin-center.privy.id/payment-history" style="display:inline-block; padding:0.75rem 2.25rem; border-radius:0.5rem; border:1px solid #e42e2c; background-color:#e42e2c; box-shadow:0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); font-size:14px; line-height:1.25; font-weight:500; text-align:center; color:#fff; text-decoration:none; letter-spacing:0.015625rem;">
+                        Unduh
+                      </a>
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem;text-align:center;">
+                    <p style="margin-top:0; margin-bottom:0; font-size:0.875rem; line-height:1.45; color:#0D1117;">
+                      Jika tombol tidak berfungsi, silakan buka melalui <a href="https://b2b-admin-center.privy.id/payment-history" style="display:inline-block;color:#0065D1;">tautan ini</a>.
+                    </p>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:0.5rem 3rem; font-size: 11px; color:#e5e5e5; text-align:center;">
+                    <small>ES-G-ID055</small>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding-top:1rem;">
+                    <table style="width:100%; border-spacing:0; border-collapse:collapse;">
+                      <tbody>
+                        <tr>
+                          <td style="padding:3rem 5rem 3rem 3rem; background-image:url('https://res.cloudinary.com/dw8n9xyg3/image/upload/v1700625980/assets/images/email/footer-bg_zdlati.png'); background-repeat:no-repeat; background-position:top center; background-size:cover;">
+                            <p style="margin-top:0; font-size:0.875rem; line-height:1.5; color:#fff;">
+                              Catatan: Pesan ini dikirimkan dari alamat surat elektronik yang tidak dipantau. Jangan balas pesan ini. 
+                              Jika ada pertanyaan, silakan hubungi kami di <a href="mailto:helpdesk@privy.id" style="color:#fff!important;text-decoration:underline;"><b>helpdesk@privy.id</b></a>
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:2rem 3rem;">
+                    <table style="width:100%; border-spacing:0; border-collapse:collapse;">
+                      <tbody>
+                        <tr>
+                          <td style="padding:0; width:65%; vertical-align:middle;">
+                            <h3 style="font-size:0.875rem; margin-bottom:0.625rem; color:#0D1117;">PT. Privy Identitas Digital</h3>
+                            <address style="color:#6E7074; font-size:0.6875rem; letter-spacing:0.5px; font-style:normal">Jl. Kemang Raya no. 15 Jakarta Selatan 12730</address>
+                          </td>
+                          <td style="padding:0; width:35%; vertical-align:middle; text-align:right;">
+                            <a href="http://facebook.com/privyid" style="margin-right:0.425rem;" target="_blank"><img src="https://res.cloudinary.com/dw8n9xyg3/image/upload/v1701079571/assets/images/email/revamp-facebook_ouezpu.png" style="max-height:2.1875rem;" alt=""></a>
+                            <a href="http://twitter.com/PrivyID" style="margin-right:0.425rem;" target="_blank"><img src="https://res.cloudinary.com/dw8n9xyg3/image/upload/v1701079571/assets/images/email/revamp-twitter_ed17qx.png" style="max-height:2.1875rem;" alt=""></a>
+                            <a href="https://www.linkedin.com/company/privy-id" style="margin-right:0.425rem;" target="_blank"><img src="https://cdn.avg.privylite.com/general-icon/ico-linkedin-1.png" style="max-height:2.1875rem;" alt=""></a>
+                            <a href="https://www.instagram.com/privy_id" style="margin-right:0.425rem;" target="_blank"><img src="https://cdn.avg.privylite.com/general-icon/ico-instagram-1.png" style="max-height:2.1875rem;" alt=""></a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td style="padding:2rem 3rem;">
+                    <table style="width:100%; border-spacing:0; border-collapse:collapse;">
+                      <tbody>
+                        <tr>
+                          <td style="padding:0; width:33.333%; text-align:left; vertical-align: top;">
+                            <a href="https://privy.id/terms-and-conditions" style="font-size:0.75rem;color:#6E7074;" target="_blank">Ketentuan Penggunaan</a>
+                          </td>
+                          <td style="padding:0; width:33.333%; text-align:center; vertical-align: top;">
+                            <a href="https://privy.id/kebijakan-privasi" style="font-size:0.75rem;color:#6E7074;" target="_blank">Kebijakan Privasi</a>
+                          </td>
+                          <td style="padding:0; width:33.333%; text-align:right; vertical-align: top;">
+                            <a href="https://repository.privyca.id/" style="font-size:0.75rem;color:#6E7074;" target="_blank">Repository Dokumen</a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

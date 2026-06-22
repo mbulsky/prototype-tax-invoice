@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/persona-design-system-5ca82c50-a2c7-470a-bf86-8495c5ecbe70/colors_and_type.css">
+  <link rel="stylesheet" href="_ds/persona-design-system-5ca82c50-a2c7-470a-bf86-8495c5ecbe70/components/ds.css">
+  <link rel="stylesheet" href="_ds/persona-design-system-5ca82c50-a2c7-470a-bf86-8495c5ecbe70/fonts/persona-icon.css">
+  <script src="_ds/persona-design-system-5ca82c50-a2c7-470a-bf86-8495c5ecbe70/_ds_bundle.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body { background: var(--bg-default); overflow: hidden; }
+    .nav-item:hover { background: var(--gray-5) !important; }
+    .doc-row:hover { border-color: var(--border-emphasis) !important; }
+    .pick-row:hover { box-shadow: var(--shadow-sm); }
+    .tbl-row:hover td { background: var(--gray-5); }
+    .scroll-y { overflow-y: auto; scrollbar-width: thin; }
+    @keyframes panelIn { from { transform: translateX(28px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes fadeUp { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes pickIn { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes toastIn { from { transform: translate(-50%, 14px); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+    @keyframes pop { 0% { transform: scale(.7); opacity: 0; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes modalIn { from { transform: translateY(12px) scale(.98); opacity: 0; } to { transform: none; opacity: 1; } }
+  </style>
+</helmet>
+
+<div style="display:flex; flex-direction:column; height:100vh; width:100%; background:var(--bg-default); color:var(--fg-default); font-family:var(--font-sans);">
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header style="flex:0 0 64px; display:flex; align-items:center; justify-content:space-between; padding:0 28px; border-bottom:1px solid var(--border-subtle); background:#fff; z-index:5;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <img src="assets/logo-privy-icon.svg" alt="Privy" style="height:26px; width:auto; display:block;">
+      <span style="font-size:20px; font-weight:500; letter-spacing:-0.2px;">Admin Center</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:18px;">
+      <button onClick="{{ openCheckout }}" style="border:1px solid var(--border-default); background:#fff; cursor:pointer; font-family:inherit; font-size:12px; font-weight:600; color:var(--fg-subtle); padding:6px 14px; border-radius:7px; letter-spacing:0.3px;">Demo: Checkout</button>
+      <button class="nav-item" style="border:0; background:transparent; cursor:pointer; color:var(--fg-subtle); width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="pi-question-circle" style="font-size:22px;"></i></button>
+      <button class="nav-item" style="border:0; background:transparent; cursor:pointer; color:var(--fg-subtle); width:38px; height:38px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="pi-apps" style="font-size:22px;"></i></button>
+      <div style="position:relative;">
+        <div onClick="{{ toggleProfile }}" class="p-avatar p-avatar--md" style="width:38px; height:38px; cursor:pointer; outline:2px solid {{ profileRing }}; outline-offset:2px; border-radius:11px;"><img src="assets/user-avatar.png" alt="user"></div>
+        <sc-if value="{{ profileOpen }}" hint-placeholder-val="{{ false }}">
+        <div style="display:contents;">
+          <div onClick="{{ toggleProfile }}" style="position:fixed; inset:0; z-index:1055;"></div>
+          <div style="position:absolute; top:52px; right:0; width:344px; background:#fff; border:1px solid var(--border-subtle); border-radius:14px; box-shadow:var(--shadow-xl); z-index:1060; overflow:hidden; animation:modalIn .16s ease;">
+            <div style="padding:18px 22px 2px; font-size:12px; font-weight:700; letter-spacing:0.8px; color:var(--fg-subtlest);">{{ t.profile }}</div>
+            <div style="display:flex; align-items:center; gap:14px; padding:12px 22px 18px; border-bottom:1px solid var(--border-subtle);">
+              <div class="p-avatar p-avatar--lg" style="width:52px; height:52px; flex:0 0 52px;"><img src="assets/user-avatar.png" alt="user"></div>
+              <div style="min-width:0;">
+                <div style="font-size:15px; font-weight:700; line-height:1.3;">DIMAS APRILIAN SULAIMAN PUTRA</div>
+                <div style="font-size:14px; color:var(--fg-subtle); font-family:var(--font-mono); margin-top:2px;">WM0905</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border-bottom:1px solid var(--border-subtle);">
+              <span style="display:flex; align-items:center; gap:12px; font-size:15px;"><i class="pi-translates" style="font-size:20px; color:var(--fg-subtle);"></i> {{ t.language }}</span>
+              <div style="display:flex; background:var(--gray-10); border-radius:8px; padding:3px;">
+                <button onClick="{{ setLangId }}" style="border:0; cursor:pointer; font-family:inherit; font-size:13px; font-weight:600; padding:5px 15px; border-radius:6px; transition:background .12s; {{ langIdStyle }}">ID</button>
+                <button onClick="{{ setLangEn }}" style="border:0; cursor:pointer; font-family:inherit; font-size:13px; font-weight:600; padding:5px 15px; border-radius:6px; transition:background .12s; {{ langEnStyle }}">EN</button>
+              </div>
+            </div>
+            <div onClick="{{ logout }}" class="nav-item" style="display:flex; align-items:center; gap:12px; padding:15px 22px; cursor:pointer; color:var(--red-40); font-size:15px; font-weight:500;"><i class="pi-sign-out" style="font-size:20px;"></i> {{ t.logout }}</div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== BODY ===================== -->
+  <div style="flex:1; display:flex; min-height:0;">
+
+    <!-- ---------- SIDEBAR ---------- -->
+    <aside class="scroll-y" style="flex:0 0 280px; border-right:1px solid var(--border-subtle); background:#fff; padding:22px 16px; display:flex; flex-direction:column; gap:8px;">
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--fg-subtlest); padding:0 4px 6px;">{{ t.enterpriseAccount }}</div>
+      <button style="display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%; padding:12px 14px; border:1px solid var(--border-default); border-radius:8px; background:var(--gray-5); cursor:pointer; font-family:inherit; font-size:15px; font-weight:500; color:var(--fg-default);">
+        <span>Test Mbul Ganz</span>
+        <i class="pi-chevron-down" style="font-size:16px; color:var(--fg-subtle);"></i>
+      </button>
+
+      <div style="height:10px;"></div>
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--fg-subtlest); padding:6px 4px;">{{ t.secGeneral }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-grid-view" style="font-size:20px;"></i> {{ t.navOverview }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-user-groups" style="font-size:20px;"></i> {{ t.navUserRole }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-lock" style="font-size:20px;"></i> {{ t.navSeal }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-stamp" style="font-size:20px;"></i> {{ t.navStamp }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-envelope" style="font-size:20px;"></i> {{ t.navEmailLogo }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-folder" style="font-size:20px;"></i> {{ t.navDocCat }}</div>
+
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--fg-subtlest); padding:14px 4px 6px;">{{ t.secUserMgmt }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-user-circle" style="font-size:20px;"></i> {{ t.navAdmins }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-user-groups" style="font-size:20px;"></i> {{ t.navGroups }}</div>
+
+      <div style="font-size:11px; font-weight:700; letter-spacing:0.8px; text-transform:uppercase; color:var(--fg-subtlest); padding:14px 4px 6px;">{{ t.secOther }}</div>
+      <div class="nav-item" style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-subtle); font-size:15px;"><i class="pi-document-filled" style="font-size:20px;"></i> {{ t.navBilling }}</div>
+      <div style="display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; cursor:pointer; color:var(--fg-default); font-size:15px; font-weight:500; background:var(--gray-5); box-shadow:inset 3px 0 0 0 var(--red-40);"><i class="pi-receipt-history" style="font-size:20px; color:var(--red-40);"></i> {{ t.navPayment }}</div>
+
+      <div style="flex:1; min-height:18px;"></div>
+      <div style="border:1px solid var(--border-subtle); border-radius:12px; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:var(--shadow-sm);">
+        <div>
+          <div style="font-size:13px; color:var(--fg-subtle); margin-bottom:6px;">e-Meterai</div>
+          <div style="display:flex; align-items:center; gap:7px;"><i class="pi-information-circle" style="color:var(--blue-40); font-size:18px;"></i><span style="font-size:22px; font-weight:700;">20</span></div>
+        </div>
+        <i class="pi-chevron-right" style="color:var(--fg-subtlest); font-size:18px;"></i>
+      </div>
+    </aside>
+
+    <!-- ---------- MAIN ---------- -->
+    <main style="flex:1; min-width:0; position:relative; display:flex;">
+
+      <!-- ============ SCREEN 1: PAYMENT HISTORY ============ -->
+      <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Payment history" style="flex:1; display:flex; min-width:0;">
+
+        <!-- table column -->
+        <div class="scroll-y" style="flex:1; min-width:0; padding:30px 40px;">
+          <nav style="display:flex; align-items:center; gap:10px; font-size:14px; margin-bottom:20px;">
+            <span style="color:var(--fg-link); cursor:pointer;">{{ t.bcAdmin }}</span>
+            <i class="pi-chevron-right" style="font-size:13px; color:var(--fg-subtlest);"></i>
+            <span style="font-weight:500;">{{ t.navPayment }}</span>
+          </nav>
+
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:22px;">
+            <h1 style="font-size:32px; font-weight:700; letter-spacing:-0.4px; margin:0; max-width:200px; line-height:1.2;">{{ t.title }}</h1>
+            <div style="display:flex; align-items:center; gap:12px; padding-top:4px;">
+              <button style="display:flex; align-items:center; justify-content:space-between; gap:24px; min-width:200px; padding:11px 16px; border:1px solid var(--border-default); border-radius:8px; background:#fff; cursor:pointer; font-family:inherit; font-size:14px; color:var(--fg-default);">
+                <span>{{ t.allPayment }}</span><i class="pi-chevron-down" style="color:var(--fg-subtle);"></i>
+              </button>
+              <div style="position:relative;">
+                <i class="pi-search" style="position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--fg-subtlest); font-size:18px;"></i>
+                <input class="p-input" placeholder="{{ t.search }}" style="width:260px; padding-right:40px;">
+              </div>
+            </div>
+          </div>
+
+          <div style="border:1px solid var(--border-subtle); border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm);">
+            <table style="width:100%; border-collapse:separate; border-spacing:0;">
+              <thead>
+                <tr style="background:var(--gray-5);">
+                  <th style="text-align:left; padding:15px 22px; font-size:14px; font-weight:700; color:var(--fg-default);"><span style="display:inline-flex; align-items:center; gap:6px;">{{ t.thDate }} <i class="pi-chevron-sort" style="font-size:14px; color:var(--fg-subtlest);"></i></span></th>
+                  <th style="text-align:left; padding:15px 22px; font-size:14px; font-weight:700; color:var(--fg-default);">{{ t.thInvoice }}</th>
+                  <th style="text-align:left; padding:15px 22px; font-size:14px; font-weight:700; color:var(--fg-default);">{{ t.thMethod }}</th>
+                  <th style="text-align:right; padding:15px 22px; font-size:14px; font-weight:700; color:var(--fg-default);">{{ t.thAmount }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ rows }}" as="row" hint-placeholder-count="4">
+                  <tr class="tbl-row" onClick="{{ row.onSelect }}" style="cursor:pointer; background:{{ row.rowBg }}; box-shadow:{{ row.rowShadow }};">
+                    <td style="padding:18px 22px; border-bottom:1px solid var(--border-subtle); font-size:15px;">{{ row.date }}</td>
+                    <td style="padding:18px 22px; border-bottom:1px solid var(--border-subtle); font-size:14px; font-family:var(--font-mono); color:var(--fg-subtle);">{{ row.invoice }}</td>
+                    <td style="padding:18px 22px; border-bottom:1px solid var(--border-subtle); font-size:15px;">{{ row.method }}</td>
+                    <td style="padding:18px 22px; border-bottom:1px solid var(--border-subtle); font-size:15px; text-align:right; font-variant-numeric:tabular-nums;">{{ row.amountFmt }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border-top:1px solid var(--border-subtle); font-size:14px; color:var(--fg-subtle); background:#fff;">
+              <span>{{ t.pageOf }}</span>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span>{{ t.showRows }}</span>
+                <span style="display:inline-flex; align-items:center; gap:8px; border:1px solid var(--border-default); border-radius:7px; padding:5px 10px; color:var(--fg-default);">10 <i class="pi-chevron-down" style="font-size:13px;"></i></span>
+              </div>
+              <div style="display:flex; align-items:center; gap:18px;">
+                <span>{{ t.first }}</span><i class="pi-chevron-left"></i><i class="pi-chevron-right"></i><span>{{ t.last }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px; display:flex; align-items:flex-start; gap:10px; padding:12px 16px; border-radius:8px; background:var(--blue-0); border:1px solid var(--border-subtle); font-size:13px; color:var(--blue-60); line-height:1.5;">
+            <i class="pi-information-circle" style="font-size:18px; flex:0 0 auto; margin-top:1px;"></i>
+            <span>{{ t.featureNote }}</span>
+          </div>
+        </div>
+
+        <!-- detail panel -->
+        <sc-if value="{{ panelOpen }}" hint-placeholder-val="{{ true }}">
+        <aside style="flex:0 0 432px; border-left:1px solid var(--border-subtle); background:#fff; display:flex; flex-direction:column; min-height:0; animation:panelIn .22s ease;">
+          <div style="flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; padding:22px 26px 16px;">
+            <h2 style="font-size:20px; font-weight:700; margin:0;">{{ t.paymentDetail }}</h2>
+            <button onClick="{{ closePanel }}" class="nav-item" style="border:0; background:transparent; cursor:pointer; color:var(--fg-subtle); width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="pi-close" style="font-size:20px;"></i></button>
+          </div>
+
+          <div class="scroll-y" style="flex:1; min-height:0; padding:4px 26px 20px;">
+            <div style="margin-bottom:18px;">
+              <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:4px;">{{ t.paymentNumber }}</div>
+              <div style="font-size:14px; font-weight:500; font-family:var(--font-mono);">{{ sel.paymentNo }}</div>
+            </div>
+            <div style="margin-bottom:18px;">
+              <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:4px;">{{ t.paymentDate }}</div>
+              <div style="font-size:14px; font-weight:500;">{{ sel.paymentDate }}</div>
+            </div>
+            <div style="margin-bottom:18px;">
+              <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:4px;">{{ t.invoice }}</div>
+              <div style="font-size:14px; font-weight:500; font-family:var(--font-mono);">{{ sel.invoice }}</div>
+            </div>
+
+            <hr class="p-divider" style="margin:20px 0;">
+            <h3 style="font-size:16px; font-weight:700; margin:0 0 14px;">{{ t.paymentAccount }}</h3>
+            <div style="margin-bottom:6px;">
+              <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:4px;">{{ t.paymentMethod }}</div>
+              <div style="font-size:14px; font-weight:500;">{{ sel.method }}</div>
+            </div>
+
+            <hr class="p-divider" style="margin:20px 0;">
+            <h3 style="font-size:16px; font-weight:700; margin:0 0 14px;">{{ t.itemDetails }}</h3>
+            <div style="font-size:15px; font-weight:600;">{{ sel.itemName }}</div>
+            <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:10px;">{{ sel.itemUnitLabel }}</div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:14px;"><span>{{ sel.itemQty }}</span><span style="font-variant-numeric:tabular-nums;">{{ sel.itemAmountFmt }}</span></div>
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px; color:var(--fg-subtlest); margin-top:6px;"><span>{{ sel.vatLabel }}</span><span>{{ sel.vatFmt }}</span></div>
+            <hr class="p-divider" style="margin:14px 0;">
+            <div style="display:flex; align-items:center; justify-content:space-between; font-size:14px;"><span style="color:var(--fg-subtle);">{{ sel.subtotalLabel }}</span><span style="font-weight:600; font-variant-numeric:tabular-nums;">{{ sel.subtotalFmt }}</span></div>
+
+            <hr class="p-divider" style="margin:20px 0;">
+            <h3 style="font-size:16px; font-weight:700; margin:0 0 14px;">{{ t.documents }}</h3>
+
+            <div class="doc-row" onClick="{{ viewReceipt }}" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 14px; border:1px solid var(--border-subtle); border-radius:10px; cursor:pointer; margin-bottom:10px;">
+              <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                <span style="flex:0 0 40px; width:40px; height:40px; border-radius:9px; background:var(--green-0); color:var(--green-60); display:flex; align-items:center; justify-content:center;"><i class="pi-receipt" style="font-size:20px;"></i></span>
+                <div style="min-width:0;">
+                  <div style="font-size:14px; font-weight:600;">{{ t.receipt }}</div>
+                  <div style="font-size:12px; color:var(--fg-subtle);">{{ t.receiptSub }}</div>
+                </div>
+              </div>
+              <span class="p-btn p-btn--sm p-btn--link" style="white-space:nowrap;">{{ t.view }} <i class="pi-chevron-right" style="font-size:13px;"></i></span>
+            </div>
+
+            <sc-if value="{{ showEvatRow }}" hint-placeholder-val="{{ true }}">
+            <div class="doc-row" onClick="{{ viewEvat }}" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 14px; border:1px solid var(--border-subtle); border-radius:10px; cursor:pointer;">
+              <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                <span style="flex:0 0 40px; width:40px; height:40px; border-radius:9px; background:var(--blue-0); color:var(--blue-50); display:flex; align-items:center; justify-content:center;"><i class="pi-tax" style="font-size:20px;"></i></span>
+                <div style="min-width:0;">
+                  <div style="font-size:14px; font-weight:600;">{{ t.evatLabel }}</div>
+                  <div style="font-size:12px; color:var(--fg-subtle); font-family:var(--font-mono); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">{{ sel.fpNumber }}</div>
+                </div>
+              </div>
+              <span class="p-btn p-btn--sm p-btn--link" style="white-space:nowrap;">{{ t.view }} <i class="pi-chevron-right" style="font-size:13px;"></i></span>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ showEvatPending }}" hint-placeholder-val="{{ true }}">
+            <div class="doc-row" onClick="{{ viewEvat }}" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:13px 14px; border:1px solid var(--border-subtle); border-radius:10px; cursor:pointer;">
+              <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                <span style="flex:0 0 40px; width:40px; height:40px; border-radius:9px; background:var(--orange-0); color:var(--orange-60); display:flex; align-items:center; justify-content:center;"><i class="pi-tax" style="font-size:20px;"></i></span>
+                <div style="min-width:0;">
+                  <div style="font-size:14px; font-weight:600;">{{ t.evatLabel }}</div>
+                  <div style="font-size:12px; color:var(--orange-70); display:flex; align-items:center; gap:5px;"><i class="pi-time" style="font-size:12px;"></i> {{ t.notIssued }}</div>
+                </div>
+              </div>
+              <span class="p-btn p-btn--sm p-btn--link" style="white-space:nowrap;">{{ t.view }} <i class="pi-chevron-right" style="font-size:13px;"></i></span>
+            </div>
+            </sc-if>
+
+            <sc-if value="{{ showNaBanner }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-radius:8px; border:1px solid var(--border-subtle); background:var(--gray-5); font-size:14px; color:var(--fg-subtle); line-height:1.42;">
+              <span style="flex:0 0 22px; width:22px; height:22px; border-radius:999px; background:var(--gray-20); color:#fff; display:inline-flex; align-items:center; justify-content:center; font-size:13px;"><i class="pi-information-circle"></i></span>
+              <div>{{ t.naEvat }}</div>
+            </div>
+            </sc-if>
+          </div>
+
+          <!-- footer -->
+          <div style="flex:0 0 auto; border-top:1px solid var(--border-subtle); padding:18px 26px 22px; background:#fff;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+              <span style="font-size:16px; font-weight:500;">{{ t.totalPaid }}</span>
+              <span style="font-size:22px; font-weight:700; color:var(--blue-50); font-variant-numeric:tabular-nums;">{{ sel.totalFmt }}</span>
+            </div>
+
+            <button onClick="{{ openDownload }}" class="p-btn p-btn--lg p-btn--outline p-btn--secondary" style="width:100%;"><i class="pi-download"></i> {{ t.downloadDocs }}</button>
+          </div>
+        </aside>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- ============ SCREEN 2: VIEW RECEIPT ============ -->
+      <sc-if value="{{ isReceipt }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="View receipt" style="flex:1; display:flex; flex-direction:column; min-width:0; background:var(--bg-ground);">
+        <div class="scroll-y" style="flex:1; min-height:0; padding:26px 40px 40px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; max-width:780px; margin:0 auto 22px;">
+            <button onClick="{{ back }}" class="p-btn p-btn--md p-btn--link" style="padding-left:0;"><i class="pi-arrow-left"></i> {{ t.backShort }}</button>
+            <span class="p-badge p-badge--success" style="font-size:12px; padding:5px 12px;"><i class="pi-checkmark-circle-solid" style="font-size:13px;"></i> {{ t.paid }}</span>
+          </div>
+
+          <div style="max-width:780px; margin:0 auto; background:#fff; border:1px solid var(--border-subtle); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); animation:fadeUp .25s ease;">
+            <div style="height:5px; background:var(--red-40);"></div>
+            <div style="padding:32px 38px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:30px;">
+                <div>
+                  <div style="display:flex; align-items:center; gap:9px; margin-bottom:10px;"><img src="assets/logo-privy-icon.svg" alt="Privy" style="height:22px;"><span style="font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--fg-subtle);">PRIVY</span></div>
+                  <div style="font-size:30px; font-weight:700; letter-spacing:-0.5px;">RECEIPT</div>
+                </div>
+                <div style="text-align:right; font-size:13px; color:var(--fg-subtle); line-height:1.65;">
+                  <div style="font-size:14px; font-weight:600; color:var(--fg-default); margin-bottom:2px;">PT Privy Identitas Digital</div>
+                  Jl. Kemang Raya No. 15C<br>Jakarta Selatan 12370 - Indonesia<br>helpdesk@privy.id
+                </div>
+              </div>
+
+              <div style="border:1px solid var(--border-subtle); border-radius:10px; overflow:hidden; margin-bottom:26px;">
+                <div style="display:flex; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--border-subtle);"><span style="color:var(--fg-subtle); font-size:13px;">Receipt number</span><span style="font-size:13px; font-weight:500; font-family:var(--font-mono);">{{ sel.receiptNo }}</span></div>
+                <div style="display:flex; justify-content:space-between; padding:12px 18px; border-bottom:1px solid var(--border-subtle);"><span style="color:var(--fg-subtle); font-size:13px;">Invoice number</span><span style="font-size:13px; font-weight:500; font-family:var(--font-mono);">{{ sel.invoice }}</span></div>
+                <div style="display:flex; justify-content:space-between; padding:12px 18px;"><span style="color:var(--fg-subtle); font-size:13px;">Transaction date</span><span style="font-size:13px; font-weight:500;">{{ sel.transactionDate }}</span></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-bottom:28px;">
+                <div>
+                  <div style="font-size:12px; color:var(--fg-subtle); margin-bottom:8px;">Bill to</div>
+                  <div style="font-size:15px; font-weight:600;">{{ sel.billToName }}</div>
+                  <div style="font-size:13px; color:var(--fg-subtle); margin-top:2px;">{{ sel.billToEmail }}</div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:11px;">
+                  <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:13px; color:var(--fg-subtle);">Status</span><span class="p-tag p-tag--success"><span class="dot"></span> Paid</span></div>
+                  <div style="display:flex; justify-content:space-between; align-items:center;"><span style="font-size:13px; color:var(--fg-subtle);">Payment method</span><span style="font-size:13px; font-weight:500;">{{ sel.method }}</span></div>
+                  <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;"><span style="font-size:13px; color:var(--fg-subtle);">Payment date</span><span style="font-size:13px; font-weight:500; text-align:right;">{{ sel.paymentDate }}</span></div>
+                </div>
+              </div>
+
+              <table style="width:100%; border-collapse:collapse; margin-bottom:24px;">
+                <thead><tr style="border-bottom:2px solid var(--border-default);">
+                  <th style="text-align:left; padding:10px 8px; font-size:12px; font-weight:700; color:var(--fg-default);">Item</th>
+                  <th style="text-align:center; padding:10px 8px; font-size:12px; font-weight:700; color:var(--fg-default);">Quantity</th>
+                  <th style="text-align:right; padding:10px 8px; font-size:12px; font-weight:700; color:var(--fg-default);">Unit price</th>
+                  <th style="text-align:right; padding:10px 8px; font-size:12px; font-weight:700; color:var(--fg-default);">Amount</th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ sel.receiptRows }}" as="it" hint-placeholder-count="2">
+                    <tr style="border-bottom:1px solid var(--border-subtle);">
+                      <td style="padding:13px 8px; font-size:14px;">{{ it.name }}</td>
+                      <td style="padding:13px 8px; font-size:14px; text-align:center; font-variant-numeric:tabular-nums;">{{ it.qty }}</td>
+                      <td style="padding:13px 8px; font-size:14px; text-align:right; font-variant-numeric:tabular-nums;">{{ it.unit }}</td>
+                      <td style="padding:13px 8px; font-size:14px; text-align:right; font-variant-numeric:tabular-nums;">{{ it.amount }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+
+              <div style="display:flex; justify-content:flex-end; margin-bottom:28px;">
+                <div style="width:300px;">
+                  <div style="display:flex; justify-content:space-between; font-size:14px; padding:5px 0;"><span style="color:var(--fg-subtle);">Subtotal</span><span style="font-variant-numeric:tabular-nums;">{{ sel.rSubtotalID }}</span></div>
+                  <div style="display:flex; justify-content:space-between; font-size:14px; padding:5px 0;"><span style="color:var(--fg-subtle);">Discount</span><span style="font-variant-numeric:tabular-nums;">{{ sel.rDiscountID }}</span></div>
+                  <div style="display:flex; justify-content:space-between; font-size:14px; padding:5px 0;"><span style="color:var(--fg-subtle);">DPP</span><span style="font-variant-numeric:tabular-nums;">{{ sel.rDppID }}</span></div>
+                  <div style="display:flex; justify-content:space-between; font-size:14px; padding:5px 0;"><span style="color:var(--fg-subtle);">DPP Nilai Lain</span><span style="font-variant-numeric:tabular-nums;">{{ sel.rDppNilaiLainID }}</span></div>
+                  <div style="display:flex; justify-content:space-between; font-size:14px; padding:5px 0;"><span style="color:var(--fg-subtle);">PPN 12%</span><span style="font-variant-numeric:tabular-nums;">{{ sel.rPpnID }}</span></div>
+                  <hr class="p-divider" style="margin:8px 0;">
+                  <div style="display:flex; justify-content:space-between; align-items:baseline; padding:5px 0;"><span style="font-size:14px; font-weight:700;">Total paid <span style="font-size:11px; font-weight:400; color:var(--fg-subtle);">(Subtotal + PPN)</span></span><span style="font-size:20px; font-weight:700; color:var(--green-60); font-variant-numeric:tabular-nums;">{{ sel.rTotalID }}</span></div>
+                </div>
+              </div>
+
+              <div style="border-top:1px solid var(--border-subtle); padding-top:18px; font-size:12px; color:var(--fg-subtle); text-align:center;">For further inquiries please contact finance@privy.id</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:0 0 auto; border-top:1px solid var(--border-subtle); background:#fff; padding:16px 40px; display:flex; align-items:center; justify-content:flex-end; gap:12px;">
+          <button onClick="{{ doPrint }}" class="p-btn p-btn--md p-btn--outline p-btn--secondary"><i class="pi-printer"></i> {{ t.print }}</button>
+          <button onClick="{{ downloadReceiptPdf }}" class="p-btn p-btn--md p-btn--info"><i class="pi-download"></i> {{ t.downloadPdf }}</button>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- ============ SCREEN 3: VIEW e-VAT / FAKTUR PAJAK ============ -->
+      <sc-if value="{{ isEvat }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="View e-VAT" style="flex:1; display:flex; flex-direction:column; min-width:0; background:var(--bg-ground);">
+        <div class="scroll-y" style="flex:1; min-height:0; padding:26px 40px 40px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; max-width:780px; margin:0 auto 22px;">
+            <button onClick="{{ back }}" class="p-btn p-btn--md p-btn--link" style="padding-left:0;"><i class="pi-arrow-left"></i> {{ t.backShort }}</button>
+            <sc-if value="{{ evatIssued }}" hint-placeholder-val="{{ true }}">
+            <span class="p-badge p-badge--success" style="font-size:12px; padding:5px 12px;"><i class="pi-checkmark-verified-solid" style="font-size:13px;"></i> {{ t.verified }}</span>
+            </sc-if>
+            <sc-if value="{{ evatPending }}" hint-placeholder-val="{{ false }}">
+            <span class="p-badge p-badge--warning" style="font-size:12px; padding:5px 12px;"><i class="pi-time" style="font-size:13px;"></i> {{ t.notIssued }}</span>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ evatPending }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:560px; margin:36px auto 0; text-align:center; animation:fadeUp .25s ease;">
+            <img src="assets/document-processing.svg" alt="" style="width:148px; height:auto; margin:0 auto 6px; display:block;">
+            <h2 style="font-size:24px; font-weight:700; margin:0 0 10px;">{{ t.pendingTitle }}</h2>
+            <p style="font-size:15px; color:var(--fg-subtle); line-height:1.55; margin:0 auto 20px; max-width:440px;">{{ t.pendingDesc }}</p>
+            <div style="display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border:1px solid var(--border-warning); background:var(--orange-milk); border-radius:10px; font-size:13px; color:var(--fg-warning); max-width:440px; text-align:left; line-height:1.45;"><i class="pi-information-circle" style="font-size:18px; flex:0 0 auto;"></i> {{ t.pendingNote }}</div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ evatIssued }}" hint-placeholder-val="{{ true }}">
+          <div style="max-width:780px; margin:0 auto; background:#fff; border:1px solid var(--border-subtle); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); animation:fadeUp .25s ease;">
+            <div style="height:5px; background:var(--blue-50);"></div>
+            <div style="padding:30px 36px;">
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; border-bottom:2px solid var(--fg-default); padding-bottom:16px; margin-bottom:20px;">
+                <div>
+                  <div style="font-size:24px; font-weight:700; letter-spacing:-0.4px;">Faktur Pajak</div>
+                  <div style="font-size:12px; color:var(--fg-subtle); margin-top:6px;">Kode dan Nomor Seri Faktur Pajak</div>
+                  <div style="font-size:15px; font-weight:600; font-family:var(--font-mono); margin-top:2px;">{{ sel.fpNumber }}</div>
+                </div>
+                <div style="text-align:right; font-size:12px; color:var(--fg-subtle); line-height:1.6; max-width:270px;">
+                  <div style="font-size:13px; font-weight:600; color:var(--fg-default); margin-bottom:3px;">PRIVY IDENTITAS DIGITAL</div>
+                  GEDUNG KEMANG 15 LT. 4, JL KEMANG RAYA NO.15 C, JAKARTA SELATAN
+                </div>
+              </div>
+
+              <div style="margin-bottom:16px;">
+                <div style="font-size:12px; font-weight:700; color:var(--fg-default); margin-bottom:7px;">Pengusaha Kena Pajak</div>
+                <div style="display:grid; grid-template-columns:84px 1fr; gap:4px 12px; font-size:13px; line-height:1.5;">
+                  <span style="color:var(--fg-subtle);">Nama</span><span>{{ sel.seller.name }}</span>
+                  <span style="color:var(--fg-subtle);">Alamat</span><span>{{ sel.seller.addr }}</span>
+                  <span style="color:var(--fg-subtle);">NPWP</span><span style="font-family:var(--font-mono);">{{ sel.seller.npwp }}</span>
+                </div>
+              </div>
+
+              <div style="margin-bottom:22px; border-top:1px solid var(--border-subtle); padding-top:14px;">
+                <div style="font-size:12px; font-weight:700; color:var(--fg-default); margin-bottom:7px;">Pembeli Barang Kena Pajak / Penerima Jasa Kena Pajak</div>
+                <div style="display:grid; grid-template-columns:84px 1fr; gap:4px 12px; font-size:13px; line-height:1.5;">
+                  <span style="color:var(--fg-subtle);">Nama</span><span>{{ sel.buyerName }}</span>
+                  <span style="color:var(--fg-subtle);">Alamat</span><span>{{ sel.buyerAddr }}</span>
+                  <span style="color:var(--fg-subtle);">NPWP</span><span style="font-family:var(--font-mono);">{{ sel.buyerNpwp }}</span>
+                  <span style="color:var(--fg-subtle);">NIK</span><span>-</span>
+                  <span style="color:var(--fg-subtle);">Email</span><span>{{ sel.billToEmail }}</span>
+                </div>
+              </div>
+
+              <table style="width:100%; border-collapse:collapse; margin-bottom:18px;">
+                <thead><tr style="border-top:1.5px solid var(--fg-default); border-bottom:1.5px solid var(--fg-default);">
+                  <th style="text-align:left; padding:9px 8px; font-size:11px; font-weight:700; width:34px; vertical-align:bottom;">No.</th>
+                  <th style="text-align:left; padding:9px 8px; font-size:11px; font-weight:700; width:64px; vertical-align:bottom;">Kode</th>
+                  <th style="text-align:left; padding:9px 8px; font-size:11px; font-weight:700; vertical-align:bottom;">Nama Barang Kena Pajak / Jasa Kena Pajak</th>
+                  <th style="text-align:right; padding:9px 8px; font-size:11px; font-weight:700; width:150px; vertical-align:bottom;">Harga Jual / Penggantian / Uang Muka / Termin (Rp)</th>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ sel.fakturRows }}" as="it" hint-placeholder-count="2">
+                    <tr style="border-bottom:1px solid var(--border-subtle); vertical-align:top;">
+                      <td style="padding:11px 8px; font-size:13px;">{{ it.no }}</td>
+                      <td style="padding:11px 8px; font-size:13px; font-family:var(--font-mono);">{{ it.kode }}</td>
+                      <td style="padding:11px 8px; font-size:13px;">
+                        <div style="font-weight:600;">{{ it.name }}</div>
+                        <div style="font-size:12px; color:var(--fg-subtle); margin-top:2px;">{{ it.periode }}</div>
+                        <div style="font-size:12px; color:var(--fg-subtle);">{{ it.satuanLine }}</div>
+                        <div style="font-size:12px; color:var(--fg-subtle);">{{ it.potonganLine }}</div>
+                        <div style="font-size:12px; color:var(--fg-subtle);">{{ it.ppnbmLine }}</div>
+                      </td>
+                      <td style="padding:11px 8px; font-size:13px; text-align:right; font-variant-numeric:tabular-nums;">{{ it.amount }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+
+              <div style="display:flex; justify-content:flex-end; margin-bottom:20px;">
+                <div style="width:400px;">
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:4px 0;"><span>Harga Jual / Penggantian / Uang Muka / Termin</span><span style="font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fHargaJual }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:4px 0;"><span>Dikurangi Potongan Harga</span><span style="font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fPotongan }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:4px 0;"><span>Dikurangi Uang Muka yang telah diterima</span><span style="font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fUangMuka }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:6px 0; border-top:1px solid var(--border-subtle); margin-top:4px;"><span style="font-weight:600;">Dasar Pengenaan Pajak</span><span style="font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fDpp }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:6px 0;"><span style="font-weight:600;">Jumlah PPN (Pajak Pertambahan Nilai)</span><span style="font-weight:600; color:var(--blue-50); font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fPpn }}</span></div>
+                  <div style="display:flex; justify-content:space-between; gap:16px; font-size:13px; padding:4px 0;"><span>Jumlah PPnBM (Pajak Penjualan atas Barang Mewah)</span><span style="font-variant-numeric:tabular-nums; white-space:nowrap;">{{ sel.fPpnbm }}</span></div>
+                </div>
+              </div>
+
+              <div style="font-size:11px; color:var(--fg-subtle); line-height:1.6; border-top:1px solid var(--border-subtle); padding-top:14px; margin-bottom:18px;">Sesuai dengan ketentuan yang berlaku, Direktorat Jenderal Pajak mengatur bahwa Faktur Pajak ini telah ditandatangani secara elektronik sehingga tidak diperlukan tanda tangan basah pada Faktur Pajak ini.</div>
+
+              <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px;">
+                <div style="text-align:center;">
+                  <div style="width:104px; height:104px; border:1px solid var(--border-subtle); border-radius:8px; overflow:hidden;">{{ qrEl }}</div>
+                  <div style="font-size:10px; color:var(--fg-subtle); margin-top:6px; max-width:116px;">Pindai untuk verifikasi DJP</div>
+                </div>
+                <div style="text-align:right; font-size:13px; line-height:1.55;">
+                  <div style="color:var(--fg-subtle);">{{ sel.sign.kota }}, {{ sel.sign.tanggal }}</div>
+                  <div style="color:var(--fg-subtle); margin-bottom:6px;">Ditandatangani secara elektronik</div>
+                  <svg width="160" height="38" viewBox="0 0 160 38" fill="none" style="color:var(--fg-default); margin-left:auto; display:block;"><path d="M6 24 C16 8, 24 10, 30 22 C34 32, 40 32, 46 16 C52 6, 60 24, 70 24 C84 24, 90 13, 100 17 C112 21, 122 28, 156 11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <div style="font-weight:700; letter-spacing:0.5px; margin-top:2px;">{{ sel.sign.penandatangan }}</div>
+                  <div style="font-size:12px; color:var(--fg-subtle);">(Referensi: {{ sel.sign.referensi }})</div>
+                </div>
+              </div>
+
+              <div style="font-size:10px; color:var(--fg-subtlest); line-height:1.6; border-top:1px solid var(--border-subtle); padding-top:12px; margin-top:18px;">Pemberitahuan: Faktur Pajak ini telah dilaporkan ke Direktorat Jenderal Pajak dan telah memperoleh persetujuan sesuai dengan ketentuan peraturan perpajakan yang berlaku. PERINGATAN: PKP yang membuat Faktur Pajak yang tidak sesuai dengan keadaan yang sebenarnya dan/atau sesungguhnya sebagaimana dimaksud dalam Pasal 13 ayat (9) UU PPN dikenai sanksi sesuai dengan Pasal 14 ayat (4) UU KUP.</div>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ evatIssued }}" hint-placeholder-val="{{ true }}">
+        <div style="flex:0 0 auto; border-top:1px solid var(--border-subtle); background:#fff; padding:16px 40px; display:flex; align-items:center; justify-content:flex-end; gap:12px;">
+          <button onClick="{{ doPrint }}" class="p-btn p-btn--md p-btn--outline p-btn--secondary"><i class="pi-printer"></i> {{ t.print }}</button>
+          <button onClick="{{ downloadEvatPdf }}" class="p-btn p-btn--md p-btn--info"><i class="pi-download"></i> {{ t.downloadPdf }}</button>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <!-- ============ SCREEN 4: DOWNLOAD SUCCESS ============ -->
+      <sc-if value="{{ isSuccess }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Download success" style="flex:1; display:flex; align-items:center; justify-content:center; min-width:0; padding:40px;">
+        <div style="text-align:center; max-width:380px; animation:fadeUp .25s ease;">
+          <div style="width:88px; height:88px; border-radius:999px; background:var(--green-0); display:flex; align-items:center; justify-content:center; margin:0 auto 22px; animation:pop .35s ease;">
+            <i class="pi-checkmark-circle-solid" style="font-size:48px; color:var(--green-50);"></i>
+          </div>
+          <h2 style="font-size:24px; font-weight:700; margin:0 0 8px;">{{ t.successTitle }}</h2>
+          <p style="font-size:15px; color:var(--fg-subtle); margin:0 0 24px; line-height:1.5;">{{ t.successDesc }}</p>
+
+          <div style="display:flex; align-items:center; gap:14px; text-align:left; border:1px solid var(--border-subtle); border-radius:12px; padding:16px; box-shadow:var(--shadow-sm); margin-bottom:24px;">
+            <span style="flex:0 0 46px; width:46px; height:46px; border-radius:10px; background:var(--blue-0); color:var(--blue-50); display:flex; align-items:center; justify-content:center;"><i class="{{ successFile.icon }}" style="font-size:24px;"></i></span>
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ successFile.name }}</div>
+              <div style="font-size:12px; color:var(--fg-subtle);">{{ successFile.size }}</div>
+            </div>
+            <i class="pi-checkmark-circle-solid" style="color:var(--green-50); font-size:20px;"></i>
+          </div>
+
+          <button onClick="{{ back }}" class="p-btn p-btn--lg p-btn--outline p-btn--secondary" style="width:100%;"><i class="pi-arrow-left"></i> {{ t.backHistory }}</button>
+        </div>
+      </div>
+      </sc-if>
+
+    </main>
+  </div>
+
+  <!-- ===================== CHECKOUT DRAWER ===================== -->
+  <sc-if value="{{ checkoutOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeCheckout }}" style="position:fixed; inset:0; background:rgba(25,28,33,.45); z-index:1040; animation:fadeIn .15s ease;">
+    <div onClick="{{ stop }}" style="position:absolute; right:0; top:0; bottom:0; width:480px; background:#fff; display:flex; flex-direction:column; animation:panelIn .22s ease; box-shadow:var(--shadow-2xl);">
+      <!-- header -->
+      <div style="flex:0 0 auto; display:flex; align-items:center; justify-content:space-between; padding:18px 24px; border-bottom:1px solid var(--border-subtle);">
+        <button onClick="{{ closeCheckout }}" class="p-btn p-btn--md p-btn--link" style="padding-left:0; font-size:16px; font-weight:700;"><i class="pi-arrow-left" style="font-size:16px;"></i> {{ t.checkoutTitle }}</button>
+        <button onClick="{{ closeCheckout }}" class="nav-item" style="border:0; background:transparent; cursor:pointer; color:var(--fg-subtle); width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center;"><i class="pi-close" style="font-size:20px;"></i></button>
+      </div>
+      <!-- body -->
+      <div class="scroll-y" style="flex:1; min-height:0; padding:24px 26px;">
+        <div style="font-size:16px; font-weight:700; margin-bottom:3px;">Employee account</div>
+        <div style="font-size:13px; color:var(--fg-subtle); margin-bottom:22px;">IDR 175,000 / account / month</div>
+
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:6px 0;">
+          <span style="color:var(--fg-subtle);">New employee account (10 accounts)</span>
+          <span style="font-weight:500; font-variant-numeric:tabular-nums;">IDR 1,750,000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:6px 0;">
+          <span style="color:var(--fg-subtle);">Active until Jan 1, 2027 (7 months)</span>
+          <span style="font-weight:500;">× 7</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:6px 0;">
+          <span>Amount</span>
+          <span style="font-weight:500; font-variant-numeric:tabular-nums;">IDR 12,250,000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:13px; padding:4px 0; color:var(--fg-subtlest);">
+          <span>VAT 12% × 11/12 × Total</span>
+          <span style="font-variant-numeric:tabular-nums;">IDR 1,347,500</span>
+        </div>
+
+        <hr class="p-divider" style="margin:18px 0;">
+
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:5px 0;">
+          <span style="color:var(--fg-subtle);">Subtotal (10 items)</span>
+          <span style="font-weight:600; font-variant-numeric:tabular-nums;">IDR 12,250,000</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:5px 0;">
+          <span style="color:var(--fg-subtle);">Discount</span><span></span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:2px 0 5px; padding-left:18px; color:var(--fg-subtlest);">
+          <span>0%</span><span style="font-variant-numeric:tabular-nums;">IDR 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:baseline; font-size:14px; padding:5px 0;">
+          <span style="color:var(--fg-subtle);">Tax</span>
+          <span style="font-variant-numeric:tabular-nums;">IDR 1,347,500</span>
+        </div>
+      </div>
+      <!-- footer -->
+      <div style="flex:0 0 auto; border-top:1px solid var(--border-subtle); padding:18px 26px 24px; background:#fff;">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:18px;">
+          <span style="font-size:16px; font-weight:500;">Total</span>
+          <span style="font-size:22px; font-weight:700; color:var(--blue-50); font-variant-numeric:tabular-nums;">IDR 13,597,500</span>
+        </div>
+        <!-- NPWP note -->
+        <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border-radius:9px; background:var(--blue-0); border:1px solid var(--border-subtle); font-size:13px; color:var(--blue-60); line-height:1.5; margin-bottom:12px;">
+          <i class="pi-information-circle" style="font-size:18px; flex:0 0 auto; margin-top:1px;"></i>
+          <span>{{ t.checkoutNpwpNote }}</span>
+        </div>
+        <!-- auto-tax info (replaces checkbox) -->
+        <div style="display:flex; align-items:flex-start; gap:10px; padding:12px 14px; border-radius:9px; background:var(--green-0); border:1px solid var(--border-subtle); font-size:13px; color:var(--green-70); line-height:1.5; margin-bottom:18px;">
+          <i class="pi-receipt" style="font-size:18px; flex:0 0 auto; margin-top:1px;"></i>
+          <span>{{ t.checkoutAutoTax }}</span>
+        </div>
+        <button class="p-btn p-btn--lg" style="width:100%; background:var(--red-40); color:#fff; border:0; cursor:pointer;">{{ t.choosePayment }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===================== DOWNLOAD MODAL ===================== -->
+  <sc-if value="{{ showDownloadModal }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ cancelDownload }}" style="position:fixed; inset:0; background:rgba(25,28,33,.5); z-index:1050; display:flex; align-items:center; justify-content:center; padding:24px; animation:fadeIn .15s ease;">
+    <div onClick="{{ stop }}" style="width:448px; max-width:100%; background:#fff; border-radius:16px; box-shadow:var(--shadow-2xl); padding:30px 32px 26px; animation:modalIn .2s ease;">
+      <h2 style="font-size:26px; font-weight:700; margin:0 0 22px; letter-spacing:-0.4px;">{{ t.dlTitle }}</h2>
+      <div style="font-size:17px; color:var(--fg-default); margin-bottom:22px;">{{ t.dlSubtitle }}</div>
+      <div style="display:flex; flex-direction:column; gap:18px; margin-bottom:34px;">
+        <sc-for list="{{ docOptions }}" as="opt" hint-placeholder-count="2">
+          <div onClick="{{ opt.onToggle }}" style="display:flex; align-items:center; gap:15px; cursor:pointer; user-select:none;">
+            <span style="flex:0 0 24px; width:24px; height:24px; border-radius:6px; border:1.5px solid {{ opt.borderColor }}; background:{{ opt.bg }}; display:flex; align-items:center; justify-content:center; color:#fff; transition:background .12s, border-color .12s;"><i class="pi-checkmark" style="font-size:14px; opacity:{{ opt.tickOpacity }};"></i></span>
+            <span style="font-size:18px;">{{ opt.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:flex-end; gap:8px;">
+        <button onClick="{{ cancelDownload }}" class="p-btn p-btn--lg p-btn--ghost" style="padding:12px 26px;">{{ t.cancel }}</button>
+        <button onClick="{{ confirmDownload }}" class="p-btn p-btn--lg" style="padding:12px 32px; {{ downloadBtnStyle }}">{{ t.download }}</button>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ===================== TOAST ===================== -->
+  <sc-if value="{{ toastShown }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed; left:50%; bottom:32px; transform:translateX(-50%); background:var(--gray-95); color:#fff; padding:13px 20px; border-radius:10px; display:flex; align-items:center; gap:10px; font-size:14px; box-shadow:var(--shadow-xl); z-index:1090; animation:toastIn .2s ease;">
+    <i class="pi-checkmark-circle-solid" style="color:var(--green-40); font-size:18px;"></i> {{ toastMsg }}
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { screen: 'history', selected: 0, pickerOpen: false, toast: '', dlReceipt: false, dlEvat: false, lang: 'en', profileOpen: false, checkoutOpen: false };
+
+  T = {
+    en: {
+      enterpriseAccount: 'Enterprise Account', secGeneral: 'General', secUserMgmt: 'User Management', secOther: 'Other',
+      navOverview: 'Overview', navUserRole: 'User and role', navSeal: 'Enterprise seal', navStamp: 'Enterprise stamp',
+      navEmailLogo: 'Email Logo', navDocCat: 'Document category', navAdmins: 'Admins', navGroups: 'Groups',
+      navBilling: 'Billing', navPayment: 'Payment history', bcAdmin: 'Admin Center', title: 'Payment history',
+      allPayment: 'All payment', search: 'Search', thDate: 'Purchase date', thInvoice: 'Invoice number',
+      thMethod: 'Payment method', thAmount: 'Amount', thEvat: 'Tax invoice status',
+      bReady: 'Ready', bProcessing: 'Processing', bNa: 'N/A',
+      pageOf: 'Page 1 of 1', showRows: 'Show rows', first: 'First', last: 'Last',
+      paymentDetail: 'Payment detail', paymentNumber: 'Payment number', paymentDate: 'Payment date', invoice: 'Invoice',
+      paymentAccount: 'Payment account', paymentMethod: 'Payment method', itemDetails: 'Item details',
+      documents: 'Documents', receipt: 'Receipt', receiptSub: 'Payment proof', evatLabel: 'Tax invoice',
+      naEvat: 'A tax invoice is not available for this receipt because this transaction is not subject to VAT. If you have questions, please contact Privy Support at helpdesk@privy.id.',
+      view: 'View', totalPaid: 'Total paid', downloadDocs: 'Download documents',
+      dlTitle: 'Download', dlSubtitle: 'Select the files you want to download', cancel: 'Cancel', download: 'Download',
+      successTitle: 'Download successful', successDesc: 'The file has been saved to your device.',
+      backHistory: 'Back to Payment History', backShort: 'Back to Payment History',
+      paid: 'Paid', verified: 'Valid & verified', print: 'Print', downloadPdf: 'Download PDF',
+      notIssued: 'Not issued yet',
+      pendingTitle: 'Tax invoice not issued yet',
+      pendingDesc: 'The tax invoice for this payment is still being processed by the system. It will be issued within 3 working days after the receipt is received.',
+      pendingNote: 'You will be notified once the document is ready to download.',
+      profile: 'PROFILE', language: 'Language', logout: 'Log out',
+      vat: 'VAT', subtotal: 'Subtotal', item: 'item', notSubject: 'not applicable',
+      featureNote: 'Tax invoices shown here only cover transactions processed after this feature was activated on your account. Earlier transactions are not included.',
+      checkoutTitle: 'Checkout',
+      checkoutNpwpNote: 'Tax invoices can only be provided when the enterprise account has uploaded its NPWP.',
+      checkoutAutoTax: 'Tax invoice will be automatically provided together with your receipt. If it cannot be issued at the same time, it will be available within 3 working days.',
+      choosePayment: 'Choose Payment',
+    },
+    id: {
+      enterpriseAccount: 'Akun Perusahaan', secGeneral: 'Umum', secUserMgmt: 'Manajemen Pengguna', secOther: 'Lainnya',
+      navOverview: 'Ringkasan', navUserRole: 'Pengguna & peran', navSeal: 'Segel perusahaan', navStamp: 'Stempel perusahaan',
+      navEmailLogo: 'Logo email', navDocCat: 'Kategori dokumen', navAdmins: 'Admin', navGroups: 'Grup',
+      navBilling: 'Tagihan', navPayment: 'Riwayat pembayaran', bcAdmin: 'Admin Center', title: 'Riwayat pembayaran',
+      allPayment: 'Semua pembayaran', search: 'Cari', thDate: 'Tanggal pembelian', thInvoice: 'Nomor invoice',
+      thMethod: 'Metode pembayaran', thAmount: 'Jumlah', thEvat: 'Status Faktur Pajak',
+      bReady: 'Terbit', bProcessing: 'Diproses', bNa: 'N/A',
+      pageOf: 'Halaman 1 dari 1', showRows: 'Tampilkan baris', first: 'Pertama', last: 'Terakhir',
+      paymentDetail: 'Detail pembayaran', paymentNumber: 'Nomor pembayaran', paymentDate: 'Tanggal pembayaran', invoice: 'Invoice',
+      paymentAccount: 'Akun pembayaran', paymentMethod: 'Metode pembayaran', itemDetails: 'Rincian item',
+      documents: 'Dokumen', receipt: 'Receipt', receiptSub: 'Bukti pembayaran', evatLabel: 'Faktur Pajak',
+      naEvat: 'Faktur Pajak tidak tersedia untuk receipt ini karena transaksi ini tidak dikenakan PPN. Jika ada pertanyaan, silakan hubungi Privy Support di helpdesk@privy.id.',
+      view: 'Lihat', totalPaid: 'Total dibayar', downloadDocs: 'Download dokumen',
+      dlTitle: 'Download', dlSubtitle: 'Pilih file yang ingin diunduh', cancel: 'Batal', download: 'Download',
+      successTitle: 'Download berhasil', successDesc: 'File telah tersimpan ke perangkat kamu.',
+      backHistory: 'Kembali ke Riwayat Pembayaran', backShort: 'Kembali ke Riwayat Pembayaran',
+      paid: 'Lunas', verified: 'Sah & terverifikasi', print: 'Cetak', downloadPdf: 'Download PDF',
+      notIssued: 'Belum terbit',
+      pendingTitle: 'Faktur Pajak belum terbit',
+      pendingDesc: 'Faktur Pajak untuk pembayaran ini masih diproses oleh sistem. Dokumen akan terbit paling lambat 3 hari kerja setelah receipt diterima.',
+      pendingNote: 'Kamu akan diberi tahu saat dokumen sudah siap diunduh.',
+      profile: 'PROFIL', language: 'Bahasa', logout: 'Keluar',
+      vat: 'PPN', subtotal: 'Subtotal', item: 'item', notSubject: 'tidak dikenakan',
+      featureNote: 'Faktur Pajak yang tampil di sini hanya mencakup transaksi yang diproses setelah fitur ini diaktifkan di akun kamu. Transaksi sebelumnya tidak ditampilkan.',
+      checkoutTitle: 'Checkout',
+      checkoutNpwpNote: 'Faktur Pajak hanya dapat diterbitkan jika akun perusahaan telah mengunggah NPWP.',
+      checkoutAutoTax: 'Faktur Pajak akan otomatis disediakan bersama receipt kamu. Jika tidak dapat diterbitkan bersamaan, Faktur Pajak akan tersedia dalam 3 hari kerja.',
+      choosePayment: 'Pilih Pembayaran',
+    },
+  };
+
+  toggleProfile() { this.setState(s => ({ profileOpen: !s.profileOpen })); }
+  setLang(lang) { this.setState({ lang }); }
+  logout() { this.setState({ profileOpen: false }); }
+
+  SELLER = {
+    name: 'PRIVY IDENTITAS DIGITAL',
+    npwp: '0804116176064000',
+    addr: 'GEDUNG KEMANG 15 LT. 4, JL KEMANG RAYA NO.15 C, RT 013 RW 001, BANGKA, MAMPANG PRAPATAN, KOTA ADM. JAKARTA SELATAN, DKI JAKARTA 12730',
+  };
+
+  RAW = [
+    {
+      date: 'May 29, 2026', invoice: '959211/PID-FIN/INV/V/26', method: 'MANDIRI Virtual Account',
+      evat: 'ready', evatLabel: 'Ready', taxable: true,
+      paymentNo: '1179430/PID-FIN/PAY/V/26', receiptNo: '1179430/PID-FIN/PAY/V/26',
+      paymentDate: 'Friday May 29, 2026 14:43', transactionDate: 'Friday May 29, 2026 14:43',
+      billToName: 'Dimas Aprilian', billToEmail: 'dimsasp21@gmail.com',
+      buyerName: 'PT TEST MBUL GANZ', buyerNpwp: '0123456789012000',
+      buyerAddr: 'GEDUNG CYBER 2 TOWER LT. 10, JL H.R. RASUNA SAID BLOK X-5 NO. 13, KUNINGAN, SETIABUDI, KOTA ADM. JAKARTA SELATAN, DKI JAKARTA 12950',
+      fpNumber: '040026001426696', fpDate: '30 Mei 2026',
+      sign: { kota: 'KOTA ADM. JAKARTA SELATAN', tanggal: '30 Mei 2026', penandatangan: 'MARSHALL PRIBADI', referensi: '959211/PID-FIN/INV/V/26' },
+      items: [
+        { kode: '160103', name: 'Auto Sign', periode: '29 Mei 2026 - 29 Mei 2027', unit: 30000000, qty: 1, satuanType: 'Lainnya', potongan: 0 },
+        { kode: '160103', name: 'Employee Account (EA)', periode: '29 Mei 2026 - 29 Mei 2027', unit: 1900000, qty: 2, satuanType: 'Kegiatan', potongan: 0 },
+      ],
+    },
+    {
+      date: 'May 29, 2026', invoice: '958986/PID-FIN/INV/V/26', method: 'MANDIRI Virtual Account',
+      evat: 'processing', evatLabel: 'Diproses', taxable: true,
+      paymentNo: '1179002/PID-FIN/PAY/V/26', receiptNo: '1179002/PID-FIN/PAY/V/26',
+      paymentDate: 'Friday May 29, 2026 11:08', transactionDate: 'Friday May 29, 2026 11:08',
+      billToName: 'Dimas Aprilian', billToEmail: 'dimsasp21@gmail.com',
+      buyerName: 'PT TEST MBUL GANZ', buyerNpwp: '0123456789012000',
+      buyerAddr: 'GEDUNG CYBER 2 TOWER LT. 10, JL H.R. RASUNA SAID BLOK X-5 NO. 13, KUNINGAN, SETIABUDI, KOTA ADM. JAKARTA SELATAN, DKI JAKARTA 12950',
+      fpNumber: '', fpDate: '',
+      sign: { kota: '', tanggal: '', penandatangan: '', referensi: '' },
+      items: [
+        { kode: '160103', name: 'Kuota tanda tangan elektronik', periode: '29 Mei 2026 - 29 Mei 2027', unit: 2500, qty: 1000, satuanType: 'Kegiatan', potongan: 0 },
+      ],
+    },
+    {
+      date: 'Apr 08, 2026', invoice: '001231/PID-FIN/INV/04/26', method: 'MANDIRI Virtual Account',
+      evat: 'ready', evatLabel: 'Ready', taxable: true,
+      paymentNo: '1177810/PID-FIN/PAY/04/26', receiptNo: '1177810/PID-FIN/PAY/04/26',
+      paymentDate: 'Wednesday Apr 08, 2026 09:37', transactionDate: 'Wednesday Apr 08, 2026 09:37',
+      billToName: 'Dimas Aprilian', billToEmail: 'dimsasp21@gmail.com',
+      buyerName: 'PT TEST MBUL GANZ', buyerNpwp: '0123456789012000',
+      buyerAddr: 'GEDUNG CYBER 2 TOWER LT. 10, JL H.R. RASUNA SAID BLOK X-5 NO. 13, KUNINGAN, SETIABUDI, KOTA ADM. JAKARTA SELATAN, DKI JAKARTA 12950',
+      fpNumber: '04002600142669637', fpDate: '21 April 2026',
+      sign: { kota: 'KOTA ADM. JAKARTA SELATAN', tanggal: '21 April 2026', penandatangan: 'MARSHALL PRIBADI', referensi: '001231/PID-FIN/INV/04/26' },
+      items: [
+        { kode: '160103', name: 'API Integration', periode: '08 Apr 2026 - 08 Apr 2027', unit: 50000000, qty: 1, satuanType: 'Lainnya', potongan: 45000000 },
+        { kode: '160103', name: 'Employee Account (EA)', periode: '08 Apr 2026 - 08 Apr 2027', unit: 1900000, qty: 2, satuanType: 'Kegiatan', potongan: 0 },
+        { kode: '160103', name: 'Stamping Fee - (e-Meterai)', periode: '08 Apr 2026 - 08 Apr 2027', unit: 18000, qty: 500, satuanType: 'Kegiatan', potongan: 0 },
+        { kode: '160103', name: 'Auto Sign', periode: '08 Apr 2026 - 08 Apr 2027', unit: 30000000, qty: 1, satuanType: 'Lainnya', potongan: 12000000 },
+      ],
+    },
+    {
+      date: 'May 20, 2026', invoice: '951220/PID-FIN/INV/V/26', method: 'MANDIRI Virtual Account',
+      evat: 'na', evatLabel: 'N/A', taxable: false,
+      paymentNo: '1175200/PID-FIN/PAY/V/26', receiptNo: '1175200/PID-FIN/PAY/V/26',
+      paymentDate: 'Tuesday May 20, 2026 16:21', transactionDate: 'Tuesday May 20, 2026 16:21',
+      billToName: 'Dimas Aprilian', billToEmail: 'dimsasp21@gmail.com',
+      buyerName: 'PT TEST MBUL GANZ', buyerNpwp: '0123456789012000',
+      buyerAddr: 'GEDUNG CYBER 2 TOWER LT. 10, JL H.R. RASUNA SAID BLOK X-5 NO. 13, KUNINGAN, SETIABUDI, KOTA ADM. JAKARTA SELATAN, DKI JAKARTA 12950',
+      fpNumber: '', fpDate: '',
+      sign: { kota: '', tanggal: '', penandatangan: '', referensi: '' },
+      items: [
+        { kode: '-', name: 'eMeterai', periode: '', unit: 10000, qty: 20, satuanType: '', potongan: 0 },
+        { kode: '-', name: 'eMeterai - Stamping Fee', periode: '', unit: 1800, qty: 20, satuanType: '', potongan: 0, freeAmount: 0 },
+      ],
+    },
+  ];
+
+  _rows = null;
+  get rows() { if (!this._rows) this._rows = this.buildRows(); return this._rows; }
+
+  buildRows() {
+    const idr = n => 'IDR ' + Math.round(n).toLocaleString('en-US');
+    const id0 = n => Math.round(n).toLocaleString('id-ID');
+    const id2 = n => Math.round(n).toLocaleString('id-ID') + ',00';
+    return this.RAW.map(r => {
+      let gross = 0, potongan = 0, subtotal = 0;
+      const receiptRows = [], fakturRows = [];
+      r.items.forEach((it, i) => {
+        const g = it.unit * it.qty;
+        const net = it.freeAmount != null ? it.freeAmount : g - (it.potongan || 0);
+        gross += g; potongan += (it.potongan || 0); subtotal += net;
+        receiptRows.push({ name: it.name, qty: id0(it.qty), unit: id0(it.unit), amount: id0(net) });
+        fakturRows.push({
+          no: String(i + 1), kode: it.kode, name: it.name, periode: it.periode,
+          satuanLine: 'Rp ' + id2(it.unit) + ' x ' + it.qty.toLocaleString('id-ID') + ',00' + (it.satuanType ? ' ' + it.satuanType : ''),
+          potonganLine: 'Potongan Harga = Rp ' + id2(it.potongan || 0),
+          ppnbmLine: 'PPnBM (0,00%) = Rp 0,00',
+          amount: id2(g),
+        });
+      });
+      const base = subtotal;
+      const dppNilaiLain = r.taxable ? Math.round(base * 11 / 12) : 0;
+      const ppn = r.taxable ? Math.round(dppNilaiLain * 0.12) : 0;
+      const total = base + ppn;
+      const first = r.items[0];
+      const firstNet = first.freeAmount != null ? first.freeAmount : first.unit * first.qty - (first.potongan || 0);
+      return Object.assign({}, r, {
+        seller: this.SELLER,
+        amountFmt: idr(total),
+        itemName: first.name,
+        itemUnitLabel: idr(first.unit) + ' / unit',
+        itemQty: id0(first.qty),
+        itemAmountFmt: idr(firstNet),
+        itemMore: r.items.length > 1 ? '+' + (r.items.length - 1) + ' item lainnya' : '',
+        subtotalLabel: 'Subtotal (' + r.items.length + ' item)',
+        subtotalFmt: idr(base),
+        vatLabel: r.taxable ? 'PPN (12% × 11/12)' : 'PPN (tidak dikenakan)',
+        vatFmt: idr(ppn),
+        totalFmt: idr(total),
+        dppFmt: idr(dppNilaiLain),
+        ppnLabel: 'PPN (12%)', ppnFmt: idr(ppn),
+        receiptRows,
+        rSubtotalID: id0(base), rDiscountID: '0',
+        rDppID: r.taxable ? id0(base) : '0',
+        rDppNilaiLainID: id0(dppNilaiLain),
+        rPpnID: id0(ppn), rTotalID: id0(total),
+        fakturRows,
+        fHargaJual: id2(gross), fPotongan: id2(potongan), fUangMuka: '0,00',
+        fDpp: id2(dppNilaiLain), fPpn: id2(ppn), fPpnbm: '0,00', fTotal: idr(total),
+      });
+    });
+  }
+
+  _qr = null;
+  makeQR() {
+    if (this._qr) return this._qr;
+    const N = 25, cell = 6;
+    let s = 987654321;
+    const rnd = () => (s = (s * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
+    const finder = (x, y) => {
+      const local = (bx, by) => {
+        const lx = x - bx, ly = y - by;
+        const border = lx === 0 || lx === 6 || ly === 0 || ly === 6;
+        const inner = lx >= 2 && lx <= 4 && ly >= 2 && ly <= 4;
+        return border || inner;
+      };
+      if (x < 7 && y < 7) return { f: true, on: local(0, 0) };
+      if (x >= N - 7 && y < 7) return { f: true, on: local(N - 7, 0) };
+      if (x < 7 && y >= N - 7) return { f: true, on: local(0, N - 7) };
+      return { f: false, on: false };
+    };
+    let rects = '';
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      const fd = finder(x, y);
+      let on = fd.f ? fd.on : rnd() > 0.52;
+      if (on) rects += '<rect x="' + (x * cell) + '" y="' + (y * cell) + '" width="' + cell + '" height="' + cell + '"/>';
+    }
+    const size = N * cell;
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '"><rect width="' + size + '" height="' + size + '" fill="#fff"/><g fill="#1F2329">' + rects + '</g></svg>';
+    this._qr = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    return this._qr;
+  }
+
+  openCheckout() { this.setState({ checkoutOpen: true }); }
+  closeCheckout() { this.setState({ checkoutOpen: false }); }
+
+  go(screen) { this.setState({ screen, pickerOpen: false }); }
+  selectRow(i) { this.setState({ selected: i, pickerOpen: false }); }
+  closePanel() { this.setState({ selected: null, pickerOpen: false }); }
+  openDownload() { this.setState({ pickerOpen: true, dlReceipt: false, dlEvat: false }); }
+  cancelDownload() { this.setState({ pickerOpen: false, dlReceipt: false, dlEvat: false }); }
+  toggleDoc(key) {
+    if (key === 'receipt') this.setState(s => ({ dlReceipt: !s.dlReceipt }));
+    else this.setState(s => ({ dlEvat: !s.dlEvat }));
+  }
+  confirmDownload() {
+    const st = this.state;
+    const sel = this.rows[st.selected] || this.rows[0];
+    const r = st.dlReceipt, e = (sel.evat === 'ready') && st.dlEvat;
+    if (!r && !e) return;
+    this.download((r && e) ? 'both' : (e ? 'evat' : 'receipt'));
+  }
+  doPrint() { window.print(); }
+
+  download(type) {
+    const sel = this.rows[this.state.selected] || this.rows[0];
+    const inv = (sel.invoice || '').split('/')[0];
+    let file;
+    if (type === 'evat') file = { icon: 'pi-tax', name: 'FakturPajak-' + inv + '.pdf', size: '264 KB' };
+    else if (type === 'both') file = { icon: 'pi-package-box', name: 'Dokumen-' + inv + '.zip', size: '512 KB' };
+    else file = { icon: 'pi-receipt', name: 'Receipt-' + inv + '.pdf', size: '248 KB' };
+    this._file = file;
+    this.setState({ screen: 'success', pickerOpen: false, dlReceipt: false, dlEvat: false, toast: this.state.lang === 'id' ? 'Download dimulai…' : 'Download started…' });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ toast: '' }), 2800);
+  }
+
+  renderVals() {
+    const st = this.state;
+    const sel = st.selected != null ? this.rows[st.selected] : this.rows[0];
+    const isReady = sel.evat === 'ready';
+    const t = this.T[st.lang];
+    const count = (sel.items || []).length;
+    const selView = Object.assign({}, sel, {
+      subtotalLabel: t.subtotal + ' (' + count + ' ' + t.item + ')',
+      vatLabel: t.vat + (sel.taxable ? ' (12% × 11/12)' : ' (' + t.notSubject + ')'),
+    });
+
+    const docDefs = [{ key: 'receipt', label: t.receipt }];
+    if (isReady) docDefs.push({ key: 'evat', label: t.evatLabel });
+    const checked = { receipt: st.dlReceipt, evat: st.dlEvat };
+    const docOptions = docDefs.map(d => ({
+      label: d.label,
+      borderColor: checked[d.key] ? 'var(--red-40)' : 'var(--border-default)',
+      bg: checked[d.key] ? 'var(--red-40)' : '#fff',
+      tickOpacity: checked[d.key] ? '1' : '0',
+      onToggle: () => this.toggleDoc(d.key),
+    }));
+    const canDownload = st.dlReceipt || (isReady && st.dlEvat);
+    const downloadBtnStyle = canDownload
+      ? 'background:var(--red-40); color:#fff;'
+      : 'background:var(--red-10); color:#fff; cursor:not-allowed; box-shadow:none;';
+
+    const rows = this.rows.map((r, i) => {
+      const isSel = st.selected === i;
+      let badgeClass = 'p-badge', badgeStyle = '';
+      if (r.evat === 'ready') badgeClass = 'p-badge p-badge--success';
+      else if (r.evat === 'processing') badgeClass = 'p-badge p-badge--warning';
+      else badgeStyle = 'background:var(--gray-10); color:var(--fg-subtle);';
+      const evMap = { ready: t.bReady, processing: t.bProcessing, na: t.bNa };
+      return {
+        date: r.date, invoice: r.invoice, method: r.method, amountFmt: r.amountFmt,
+        evatLabel: evMap[r.evat], badgeClass, badgeStyle,
+        rowBg: isSel ? 'var(--gray-5)' : '#fff',
+        rowShadow: isSel ? 'inset 3px 0 0 0 var(--red-40)' : 'none',
+        onSelect: () => this.selectRow(i),
+      };
+    });
+
+    return {
+      isHistory: st.screen === 'history',
+      isReceipt: st.screen === 'receipt',
+      isEvat: st.screen === 'evat',
+      isSuccess: st.screen === 'success',
+      panelOpen: st.selected != null,
+      showDownloadModal: st.pickerOpen,
+      docOptions,
+      downloadBtnStyle,
+      rows,
+      sel: selView,
+      t,
+      showEvatRow: isReady,
+      showEvatPending: sel.evat === 'processing',
+      showNaBanner: sel.evat === 'na',
+      evatIssued: sel.evat === 'ready',
+      evatPending: sel.evat === 'processing',
+      profileOpen: st.profileOpen,
+      profileRing: st.profileOpen ? 'var(--blue-40)' : 'transparent',
+      langIdStyle: st.lang === 'id' ? 'background:#fff; color:var(--fg-default); box-shadow:var(--shadow-sm);' : 'background:transparent; color:var(--fg-subtle);',
+      langEnStyle: st.lang === 'en' ? 'background:#fff; color:var(--fg-default); box-shadow:var(--shadow-sm);' : 'background:transparent; color:var(--fg-subtle);',
+      qrEl: React.createElement('img', { src: this.makeQR(), alt: 'QR verifikasi DJP', style: { width: '118px', height: '118px', display: 'block' } }),
+      successFile: this._file || { icon: 'pi-package-box', name: '', size: '' },
+      toastShown: !!st.toast,
+      toastMsg: st.toast,
+      toggleProfile: () => this.toggleProfile(),
+      setLangId: () => this.setLang('id'),
+      setLangEn: () => this.setLang('en'),
+      logout: () => this.logout(),
+      checkoutOpen: st.checkoutOpen,
+      openCheckout: () => this.openCheckout(),
+      closeCheckout: () => this.closeCheckout(),
+      closePanel: () => this.closePanel(),
+      openDownload: () => this.openDownload(),
+      cancelDownload: () => this.cancelDownload(),
+      confirmDownload: () => this.confirmDownload(),
+      stop: (e) => { if (e && e.stopPropagation) e.stopPropagation(); },
+      viewReceipt: () => this.go('receipt'),
+      viewEvat: () => this.go('evat'),
+      back: () => this.go('history'),
+      doPrint: () => this.doPrint(),
+      downloadReceiptPdf: () => this.download('receipt'),
+      downloadEvatPdf: () => this.download('evat'),
+    };
+  }
+}
+</script>
+</body>
+</html>
